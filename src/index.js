@@ -12,19 +12,17 @@ inputEl.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
 
 function onInput () {
  console.log(inputEl.value);
-  fetchCountries(inputEl.value).then(data => {
+ return fetchCountries(inputEl.value).then(data => {
     
     if (data.length > 10) {
        console.log("so sorry");
     
     }
     if (data.length > 1 && data.length < 10) {
-        console.log('2', data);
-        renderCountries(data);
+       renderCountries(data);
     }
     if (data.length === 1) {
-        console.log('3', data);
-        renderCountry(data);
+        renderCountry(...data);
     }
   })
 
@@ -44,16 +42,15 @@ function fetchCountries(name) {
     .catch(error => console.log("УУупс!", error))
 }
 
-function renderCountry(obj) {
- const {name, capital, population, flags, languages} = obj;
- divEl.innerHTML = `<img src="${flags.svg}" alt="flat"/>
+function renderCountry({name, capital, population, flags, languages}) {
+
+    divEl.innerHTML = `<img src="${flags.svg}" alt="flat" width="20px"/>
                     <h2>${name.official}</h2>
                     <p>Capital: ${capital}</p>
                     <p>Population: ${population}</p>
                     <p>Languages: ${languages}</p>`;
 }
 
-function renderCountries(arr) {
- const markUp = arr.map(el => `<li><img src="${el.flags.svg}" alt="flat"/><span>${el.name.official}</span></li>`.join(''));
- listEl.innerHTML = markUp;
+function renderCountries(data) {
+    listEl.innerHTML = data.map(item => (`<li><img src="${item.flags.svg}" alt="flat" width="20px"/><span>${item.name.official}</span></li>`));  
 }
