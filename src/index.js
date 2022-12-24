@@ -13,14 +13,17 @@ inputEl.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
 function onInput () {
  console.log(inputEl.value);
   fetchCountries(inputEl.value).then(data => {
-    console.log(data);
+    
     if (data.length > 10) {
-       console.log("Too many matches alert");  
+       console.log("so sorry");
+    
     }
     if (data.length > 1 && data.length < 10) {
+        console.log('2', data);
         renderCountries(data);
     }
     if (data.length === 1) {
+        console.log('3', data);
         renderCountry(data);
     }
   })
