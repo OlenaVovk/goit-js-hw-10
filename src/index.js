@@ -11,31 +11,28 @@ const divEl = document.querySelector('.country-info');
 inputEl.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
 
 function onInput () {
- //console.log(inputEl.value);
+ //console.log('value:',inputEl.value);
  const country = inputEl.value.trim();
+ //console.log('country:', country);
+ if (!country){
+    return;
+ }
 
  return API.fetchCountries(country)
     .then(data => {
-    
         if (data.length > 10) {
             Notiflix.Notify.info("Too many matches found. Please enter a more specific name.");
             listEl.innerHTML = '';
             divEl.innerHTML = '';
-            return;
         }
         if (data.length > 1 && data.length < 10) {
             renderCountries(data);
-            return;
         }
         if (data.length === 1) {
-            renderCountry(...data);
-            return;
-        }
-        if (!data.length) {
-            return;
-        }
-        
+            renderCountry(...data);  
+        }    
     })
+    .catch(err => Notiflix.Notify.failure("Oops, there is no country with that name"))
 }
 
 function renderCountry({name, capital, population, flags, languages}) {
