@@ -18,3 +18,22 @@ body {
   max-width: 320px;
   margin-bottom: 16px;
 }
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+div {
+  line-height: 1;
+}
+
+img, h2 {
+  margin-right: 5px;
+  display: inline-block;
+  }
+
+h2 {
+  display: inline-block;
+  line-height: 0.5;
+}
