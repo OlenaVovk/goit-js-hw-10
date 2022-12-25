@@ -15,6 +15,8 @@ function onInput () {
  const country = inputEl.value.trim();
  //console.log('country:', country);
  if (!country){
+    listEl.innerHTML = '';
+    divEl.innerHTML = '';
     return;
  }
 
