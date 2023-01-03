@@ -15,8 +15,7 @@ function onInput () {
  const country = inputEl.value.trim();
  //console.log('country:', country);
  if (!country){
-    listEl.innerHTML = '';
-    divEl.innerHTML = '';
+    clearString();
     return;
  }
 
@@ -24,17 +23,19 @@ function onInput () {
     .then(data => {
         if (data.length > 10) {
             Notiflix.Notify.info("Too many matches found. Please enter a more specific name.");
-            listEl.innerHTML = '';
-            divEl.innerHTML = '';
+            clearString();
         }
-        if (data.length > 1 && data.length < 10) {
+        if (data.length > 1 && data.length <= 10) {
             renderCountries(data);
         }
         if (data.length === 1) {
             renderCountry(...data);  
         }    
     })
-    .catch(err => Notiflix.Notify.failure("Oops, there is no country with that name"))
+    .catch(err => {
+        Notiflix.Notify.failure("Oops, there is no country with that name");
+        clearString();
+    })
 }
 
 function renderCountry({name, capital, population, flags, languages}) {
@@ -49,5 +50,10 @@ function renderCountry({name, capital, population, flags, languages}) {
 function renderCountries(data) {
     listEl.removeAttribute('hidden');
     listEl.innerHTML = data.map(item => (`<li><img src="${item.flags.svg}" alt="flat" width="20px"/><span>${item.name.official}</span></li>`)).join(''); 
+    divEl.innerHTML = '';
+}
+
+function clearString () {
+    listEl.innerHTML = '';
     divEl.innerHTML = '';
 }
